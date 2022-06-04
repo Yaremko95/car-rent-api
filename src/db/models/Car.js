@@ -30,6 +30,9 @@ const Car = sequelize.define("car", {
   title: {
     type: DataTypes.STRING,
   },
+  type: {
+    type: DataTypes.STRING,
+  },
   model: {
     type: DataTypes.STRING,
   },
