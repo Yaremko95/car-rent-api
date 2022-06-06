@@ -147,11 +147,9 @@ router.get("/", async (req, res, next) => {
             [Op.in]: req.query.fuelType.split(","),
           },
         }),
-        // ...(req.query.price && {
-        //   price: {
-        //     [Op.between]: req.query.price.,
-        //   },
-        // }),
+        ...(req.query.passengers && {
+          passengers: req.query.passengers,
+        }),
 
         ...(req.query.search && {
           [Op.or]: [
