@@ -175,6 +175,8 @@ router.get("/", async (req, res, next) => {
       },
 
       ...(req.query.sort && { order: [req.query.sort.split(",")] }),
+      limit: req.query.limit,
+      offset: req.query.limit * req.query.offset,
     });
     const data = cars.map((car) => {
       return {
@@ -193,7 +195,7 @@ router.get("/", async (req, res, next) => {
         price: car.price,
       };
     });
-    res.send(data);
+    res.send({ data, total: Math.ceil(data.length / req.query.limit) });
   } catch (error) {
     console.log(error);
   }
