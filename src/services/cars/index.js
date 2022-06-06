@@ -125,7 +125,7 @@ router.post("/bulk", async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
   try {
-    const cars = await Car.findAll({
+    const cars = await Car.findAndCountAll({
       where: {
         ...(req.query.titles && {
           title: {
@@ -178,7 +178,8 @@ router.get("/", async (req, res, next) => {
       limit: req.query.limit,
       offset: req.query.limit * req.query.offset,
     });
-    const data = cars.map((car) => {
+    console.log(cars);
+    const data = cars.rows.map((car) => {
       return {
         id: car.id,
         image: car.image,
@@ -195,7 +196,7 @@ router.get("/", async (req, res, next) => {
         price: car.price,
       };
     });
-    res.send({ data, total: Math.ceil(data.length / req.query.limit) });
+    res.send({ data, total: Math.ceil(cars.count / req.query.limit) });
   } catch (error) {
     console.log(error);
   }
